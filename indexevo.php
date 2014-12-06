@@ -15,7 +15,7 @@
 </head>
 <body class="blackbg whitetext">
     <div class="container">
-        <h1 class="textcenter">Earth Simulation</h1>
+        <h1 class="textcenter">Save The Earth</h1>
 
         <div class="row">
             <div class="col-md-4">
@@ -55,13 +55,14 @@
 
         </div>
 
+        <button id="resetgame" class="btn btn-lg btn-primary btn-block" type="submit">RESET</button>
+
         <button id="startstopgame" class="btn btn-lg btn-primary btn-block" type="submit">STOP</button>
     </div>
 
     <script src="jquery/jquery.min.js"></script>
     <script src="jquery/jquery-ui.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/npm.js"></script>
 
     <script src="js/evo.js"></script>
 

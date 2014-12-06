@@ -4,19 +4,30 @@ var running = 1;
 
         if(running) {
 
+            console.log('-|-');
+
             $.ajax({
                 type: "POST",
                 url: "db/ajaxevo.php",
-                data: { name: "John" }
+                data: { task: "game" }
             })
                 .done(function( msg ) {
-                    $('#gamezone').append(msg);
+
+                    var json = JSON.parse(msg);
+
+                    for(i in json) {
+
+                        //$('#gamezone').append(json[i]);
+                        $('#' + i ).html(json[i]);
+                    }
+
+                    //$('#gamezone').append();
+
+                    setTimeout(function() { gameLoop(); }, 1000);
                 });
 
 
             //$('#gamezone').append('More');
-
-            setTimeout(function() { gameLoop(); }, 1000);
 
 
 
@@ -26,7 +37,7 @@ var running = 1;
     }
 
     $(function() {
-        $('#gamezone').append('Texter');
+        //$('#gamezone').append('Texter');
 
         $('#startstopgame').on('click', function() {
 
@@ -39,6 +50,14 @@ var running = 1;
                 gameLoop();
             }
 
+        });
+
+        $('#resetgame').on('click', function() {
+            $.ajax({
+                type: "POST",
+                url: "db/ajaxevo.php",
+                data: { task: "reset" }
+            }).done(function( msg ) {  });
         });
 
         gameLoop();
