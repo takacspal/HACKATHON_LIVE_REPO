@@ -6,15 +6,15 @@ var running = 1;
 
             $.ajax({
                 type: "POST",
-                url: "some.php",
-                data: { name: "John", location: "Boston" }
+                url: "db/ajaxevo.php",
+                data: { name: "John" }
             })
                 .done(function( msg ) {
-                    alert( "Data Saved: " + msg );
+                    $('#gamezone').append(msg);
                 });
 
 
-            $('#gamezone').append('More');
+            //$('#gamezone').append('More');
 
             setTimeout(function() { gameLoop(); }, 1000);
 
