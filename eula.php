@@ -66,7 +66,7 @@ foreach ($paragraphs as &$paragraph) {
         }
 
         $pPart = preg_replace_callback("/{(.+?)\}/", "replaceToTag", $pPart);
-        $generated.="<span data-checksum='" . $checksum . "' data-length='" . mb_strlen($pPartParsed) . "'>" . $pPart . "</span>";
+        $generated.="<span data-checksum='" . $checksum . "' data-length='" . mb_strlen($pPartParsed) . "' class='part'>" . $pPart . "</span> ";
         $pPart = $pPartParsed;
         //http://translate.google.com/translate_tts?ie=UTF-8&q=All%20title%20and%20copyrights%20in%20and%20to%20the%20web%20application%20including%20but%20not%20limited%20to%20any%20images&tl=en-us
     }

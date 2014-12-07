@@ -9,27 +9,34 @@ function drawBars() {
 
     context = canvas.getContext('2d');
     width = canvas.width;
-    height = canvas.height;
-    barWidth = 10;
-    barSpacing = 2;
+    height = canvas.height - 10;
+    barWidth = 4;
+    barSpacing = 1;
 
     context.clearRect(0, 0, width, height);
-    frequencyData = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(frequencyData);
-    //console.log(analyser);
-    barCount = Math.round(width / (barWidth + barSpacing));
-    loopStep = Math.floor(frequencyData.length / barCount);
 
-    for (i = 0; i < barCount; i++) {
-        barHeight = frequencyData[i * loopStep];
-        hue = parseInt(120 * (1 - (barHeight / 255)), 10);
-        context.fillStyle = 'hsl(' + hue + ',75%,50%)';
-        context.fillRect(((barWidth + barSpacing) * i) + (barSpacing / 2), height, barWidth - barSpacing, -barHeight);
+    try {
+        frequencyData = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(frequencyData);
+        //console.log(analyser);
+        barCount = Math.round(width / (barWidth + barSpacing)) * 2;
+        loopStep = Math.floor(frequencyData.length / barCount);
+
+        for (i = 0; i < barCount; i++) {
+            barHeight = frequencyData[i * loopStep];
+
+            hue = parseInt(120 * (1 - (barHeight / 255)), 10);
+            context.fillStyle = 'hsl(' + hue + ',75%,50%)';
+            context.fillRect(((barWidth + barSpacing) * i) + (barSpacing / 2), height, barWidth - barSpacing, -barHeight);
+        }
+    } catch (ex) {
+
     }
+
 }
 
 $(function () {
-    setInterval(drawBars, 50);
+    setInterval(drawBars, 100);
 });
 
 function init() {
@@ -70,6 +77,20 @@ var gainNode;
 var convolver;
 //
 
+function endOfPart(ev) {
+    var soundName = ev.target.soundName;
+    //sounds[soundName]["isPlaying"] = false;
+
+    console.log("endOfPart");
+
+    if (sounds[soundName]["speech"]) {
+        console.log("endOfPart isPlayingSpeech=false");
+        isPlayingSpeech = false;
+    }
+    startedSounds--;
+}
+//
+
 function finishedLoading(bufferList) {
     analyser = context.createAnalyser();
     distortion = context.createWaveShaper();
@@ -95,16 +116,10 @@ function finishedLoading(bufferList) {
 
         sound["source"].connect(analyser);
         analyser.connect(biquadFilter);
-        //distortion.connect(biquadFilter);
         biquadFilter.connect(gainNode);
-        //convolver.connect(gainNode);
         gainNode.connect(context.destination);
 
-        sound["source"].onended = function (ev) {
-            var soundName = ev.target.soundName;
-
-            sounds[soundName]["isPlaying"] = false;
-        };
+        sound["source"].onended = endOfPart;
 
         sounds[sound["name"]] = sound;
     }
@@ -115,11 +130,26 @@ function finishedLoading(bufferList) {
 }
 
 
-
+var startedSounds = 0;
+var isPlaying = false;
+var isPlayingSpeech = false;
 function playSound(name) {
+    if (sounds[name]["speech"] && isPlayingSpeech) {
+        console.log("Already talking");
+        return;
+    }
+
     var source = context.createBufferSource();
     source.buffer = sounds[name]["buffer"];
     source.connect(analyser);
+    source.soundName = name;
+    source.onended = endOfPart;
+
+    if (sounds[name]["speech"]) {
+        isPlayingSpeech = true;
+    }
+    isPlaying = true;
+    startedSounds++;
 
     analyser.connect(biquadFilter);
     biquadFilter.connect(gainNode);
