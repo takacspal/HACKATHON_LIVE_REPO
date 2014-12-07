@@ -1,101 +1,58 @@
 <?php
     session_start();
 
-        $onesec = 60*60*24;
+        require_once("earthmodel.class.php");
 
-        $population = 7000000000;
-        $populationchange = 1000;
+        $arr = array();
+        $arr["onesec"] = 60*60*24; //60*60*24
+        $arr["population"] = 7000000000;
+        $arr["populationchange"] = 1000;
+        $arr["gwp"] = 74909;
+        $arr["gwpchange"] = 10;
+        $arr["births"] = 123;
+        $arr["deaths"] = 123;
+        $arr["tempc"] = 14;
+        $arr["tempchange"] = 0.001;
 
-        $gwp = 74909;
-        $gwpchange = 10;
+        $input = array();
+        $input["coal"]    = 11;
+        $input["oil"]     = 12;
+        $input["nuclear"] = 55;
+        $input["wind"]    = 3;
+        $input["solar"]   = 4;
+        $input["geo"]     = 5;
+        $input["eff"]     = 10; //%
+        $input["battery"] = 10; //% //new generation battery
+        $input["fusion"]  = 2;  //%
 
-        $births = 123; //ebbe nincs minusz
-        $deaths = 123; //ebbe nincs minusz
-
-        $temp_c = 14; //
-        $temp_f = ($temp_c*1.8000)+32; //
-        $tempchange = 0.1;
-
+        $earth = new EarthModel($arr, $input);
 
     switch($_POST["task"]) {
 
         case "reset":
-            session_destroy();
+            $earth->reset();
 
-            $arr = array();
+        break;
 
-            $arr["population"]   = "";
-            $arr["gametime"]     = "";
-            $arr["gwp"]          = "";
-            $arr["birthsdeaths"] = "";
-            $arr["temp"]         = "";
-            $arr["growthrate"]   = "";
+        case "nextyear":
+            $earth->nextyear();
+        break;
 
-            echo json_encode($arr);
-
+        case "newinput":
+            $earth->newinput($_POST["newinput"]);
+            $earth->buffer();
+            echo "ok";
         break;
 
         case "game":
 
-            if( !array_key_exists("gametimestart", $_SESSION) ) {
-                $_SESSION["gametimestart"] = time();
-                $_SESSION["gametimecurr"]  = time();
-            } else {
-                $_SESSION["gametimecurr"] += $onesec;
-            }
+            $earth->getOutput();
 
-            if( !array_key_exists("population", $_SESSION) ) {
-                $_SESSION["population"] = $population;
-                $_SESSION["populationchange"] = $populationchange;
-            } else {
-                $_SESSION["population"] += $populationchange;
-            }
+            $earth->input();
 
-            if( !array_key_exists("tempc", $_SESSION) ) {
-                $_SESSION["tempc"] = $temp_c;
-                $_SESSION["tempf"] = ($_SESSION["tempc"]*1.8000)+32;
-                $_SESSION["tempchange"] = $tempchange;
-            } else {
-                $_SESSION["tempc"] += $_SESSION["tempchange"];
-                $_SESSION["tempf"] = ($_SESSION["tempc"]*1.8000)+32;
-            }
-
-
-            if( !array_key_exists("gwp", $_SESSION) ) {
-                $_SESSION["gwp"] = $gwp;
-                $_SESSION["gwpchange"] = $gwpchange;
-            } else {
-                $_SESSION["gwp"] += $_SESSION["gwpchange"];
-            }
-
-            /*
-            if( !array_key_exists("", $_SESSION) ) {
-                $_SESSION["tempc"] = ;
-            } else {
-                $_SESSION["tempc"] += $tempchange;
-                $_SESSION["tempf"] = ;
-            }
-            */
-
-                //$curry = date( "Y", $time );
-                //$currm = date( "m", $time );
-                //$currd = date( "d", $time );
-
-            $arr = array();
-
-            $arr["population"]   = $_SESSION["population"];
-            $arr["gametime"]     = date( "Y-m-d", $_SESSION["gametimecurr"] );
-            $arr["gwp"]          = $_SESSION["gwp"];
-            $arr["birthsdeaths"] = "+123 / -124";
-            $arr["temp"]         = $_SESSION["tempf"]." °F ( ".$_SESSION["tempc"]." °C )";
-            $arr["growthrate"]   = "+4%";
-
-            $json = json_encode($arr);
-
-            echo $json;
+            $earth->buffer();
 
         break;
-
     }
 
 ?>
