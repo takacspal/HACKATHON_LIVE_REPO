@@ -8,19 +8,21 @@
         $arr["population"] = 7000000000;
         $arr["populationchange"] = 1000;
         $arr["gwp"] = 74909;
-        $arr["gwpchange"] = 10;
-        $arr["births"] = 123;
-        $arr["deaths"] = 123;
+        $arr["gwpchange"] = 74909;
+        $arr["births"] = 10;
+        $arr["deaths"] = 14;
         $arr["tempc"] = 14;
         $arr["tempchange"] = 0.001;
 
+        $arr["growthrate"] = 4; //random growth
+
         $input = array();
-        $input["coal"]    = 11;
-        $input["oil"]     = 12;
-        $input["nuclear"] = 55;
-        $input["wind"]    = 3;
-        $input["solar"]   = 4;
-        $input["geo"]     = 5;
+        $input["coal"]    = 25;
+        $input["oil"]     = 55;
+        $input["nuclear"] = 10;
+        $input["wind"]    = 5;
+        $input["solar"]   = 3;
+        $input["geo"]     = 2;
         $input["eff"]     = 10; //%
         $input["battery"] = 10; //% //new generation battery
         $input["fusion"]  = 2;  //%
