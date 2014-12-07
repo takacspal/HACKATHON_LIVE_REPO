@@ -1,16 +1,4 @@
 @font-face {
-    font-family: 'wedgieregular';
-    src: url('../fonts/wedgie__-webfont.eot');
-    src: url('../fonts/wedgie__-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/wedgie__-webfont.woff2') format('woff2'),
-    url('../fonts/wedgie__-webfont.woff') format('woff'),
-    url('../fonts/wedgie__-webfont.ttf') format('truetype'),
-    url('../fonts/wedgie__-webfont.svg#wedgieregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
     font-family: 'dream_orphansregular';
     src: url('../fonts/dream_orphans-webfont.eot');
     src: url('../fonts/dream_orphans-webfont.eot?#iefix') format('embedded-opentype'),
@@ -83,14 +71,12 @@
 
 #startstopgame {
     width: 200px;
-    margin-left: auto;
-    margin-right: auto;
+    float: right;
 }
 
 #resetgame {
     width: 200px;
-    margin-left: auto;
-    margin-right: auto;
+    float: left;
 }
 
 #enterbutton {
@@ -138,4 +124,64 @@
 
 .whitetext {
     color: #FFF;
+}
+
+.coalpic {
+    background: url("coal.png");
+}
+
+.oilpic {
+    background: url("oil.png");
+}
+
+.nuclearpic {
+    background: url("nuclear.png");
+}
+
+.windpic {
+    background: url("wind.png");
+}
+
+.geopic {
+    background: url("geothermal.png");
+}
+
+.solarpic {
+    background: url("solar.png");
+}
+
+.effpic {
+    background: url("eff.png");
+}
+
+.batterypic {
+    background: url("battery.png");
+}
+
+.fusionpic {
+    background: url("fusion.png");
+}
+
+.smallpowerpic {
+    width: 150px;
+    height: 150px;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.addinput {
+    font-size: 12px;
+}
+
+.evobody {
+    font-family: good_timesregular;
+}
+
+.evobody .mainslogen {
+    display: none;
+}
+
+.evobody h2 {
+    font-size: 12px;
 }

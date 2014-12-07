@@ -6,7 +6,8 @@
             public $population;
             public $populationchange;
 
-                public $populationenergy = 2000; //2000x7milliard ~ 15 TW
+                public $populationenergy; //2000x7milliard ~ 15 TW
+                public $populationenergychange = 0.4;
 
             public $gwp;
             public $gwpchange;
@@ -56,13 +57,19 @@
             public $geoheat = 0.00001;
 
             public $eff;        //developments
-            public $effcost = 10000;
+            public $effcost = 10000; //all energy * x % plus - world heat
+            public $effenergy = 0;
+            public $effheat = 0; //-heat x eff%
 
             public $battery;    //developments
             public $batterycost = 15000;
+            public $batteryenergy = 0; //all renewable resource energy * x % plus - world heat
+            public $batteryheat = 0; //-heat if 100%
 
             public $fusion; //% //developments
             public $fusioncost = 20000;
+            public $fusionenergy = 0; //infinit
+            public $fusionheat = 0; //-heat if 100%
 
             public $input = array();
 
@@ -81,8 +88,10 @@
                 if( ($kind == "eff" || $kind == "battery" || $kind == "fusion") && $this->$kind < 100 ) { // && || $kind == "battery" || $kind == "fusion"
                     $this->$kind++;
                     $this->gwpchange -= $this->{$kind."cost"};
+                } else {
+                    $this->$kind++;
+                    $this->gwpchange -= $this->{$kind."cost"};
                 }
-
 
             }
 
@@ -91,11 +100,12 @@
         function input() {
             $this->gametimecurr += $this->onesec;
             $this->population += $this->populationchange;
-            $this->tempc += $this->tempchange;
+            $this->tempc += $this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat); //
             //$this->gwp = $this->gwpchange;
 
             $this->births = ( ($this->coal*$this->coalenergy) + ($this->oil*$this->oilenergy) + ($this->nuclear*$this->nuclearenergy) + ($this->wind*$this->windenergy) + ($this->solar*$this->solarenergy) + ($this->geo*$this->geoenergy) ) / 1000; //production
             $this->deaths = round($this->population*$this->populationenergy / 1000000000000, 2); //consuption
+                $this->populationenergy += $this->populationenergychange;
 
             $this->growthrate = round( $this->growthrate + (rand(-5, 5) * 0.01), 2 );
 
@@ -114,11 +124,12 @@
             $diffdays = round( ($diff / 3600) / 24 );
 
                 //change values by diffdays @todo
-                    $this->population += ($this->populationchange*$diffdays);
-                    $this->tempc      += ($this->tempchange*$diffdays);
-                    //$this->gwp        += ($this->gwpchange*$diffdays);
-                    $this->growthrate = $this->growthrate + rand(-7, 7);
-                    $this->gwp = round( $this->gwp * ($this->growthrate/100 + 1) );
+                    $this->population       += ($this->populationchange*$diffdays);
+                    $this->populationenergy += ($this->populationenergychange*$diffdays);
+                    $this->tempc            += ( ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) ) *$diffdays);
+                    //$this->gwp            += ($this->gwpchange*$diffdays);
+                    $this->growthrate        = $this->growthrate + rand(-7, 7);
+                    $this->gwp               = round( $this->gwp * ($this->growthrate/100 + 1) );
                         $this->growthrate = rand(0, 4);
 
                     $this->gwpchange = $this->gwp; //
@@ -129,6 +140,7 @@
         function buffer() {
             $_SESSION["population"] = $this->population;
             $_SESSION["populationchange"] = $this->populationchange;
+            $_SESSION["populationenergy"] = $this->populationenergy;
             $_SESSION["gwp"] = $this->gwp;
             $_SESSION["gwpchange"] = $this->gwpchange;
             $_SESSION["births"] = $this->births;
@@ -166,15 +178,15 @@
 
             $arr["gwp"]          = $this->gwpchange; //$this->gwp is the const
             $arr["birthsdeaths"] = "+ ".$this->births." / + ".$this->deaths;
-            $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )";
+            $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )" . " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) );
             $arr["growthrate"]   = $this->gwp . " (" . $this->growthrate . ")";
 
-            $arr["coal"]    = $this->coal;
-            $arr["oil"]     = $this->oil;
-            $arr["nuclear"] = $this->nuclear;
-            $arr["wind"]    = $this->wind;
-            $arr["solar"]   = $this->solar;
-            $arr["geo"]     = $this->geo;
+            $arr["coal"]    = "(".$this->coal." part)";
+            $arr["oil"]     = "(".$this->oil." part)";
+            $arr["nuclear"] = "(".$this->nuclear." part)";
+            $arr["wind"]    = "(".$this->wind." part)";
+            $arr["solar"]   = "(".$this->solar." part)";
+            $arr["geo"]     = "(".$this->geo." part)";
             $arr["eff"]     = $this->eff . "%";
             $arr["battery"] = $this->battery . "%";
             $arr["fusion"]  = $this->fusion . "%";
@@ -204,6 +216,12 @@
                 $this->populationchange = $_SESSION["populationchange"];
             } else {
                 $this->populationchange = $arr["populationchange"];
+            }
+
+            if(array_key_exists("populationenergy", $_SESSION)) {
+                $this->populationenergy = $_SESSION["populationenergy"];
+            } else {
+                $this->populationenergy = $arr["populationenergy"];
             }
 
             if(array_key_exists("gwp", $_SESSION)) {

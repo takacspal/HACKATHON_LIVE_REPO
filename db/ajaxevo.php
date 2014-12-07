@@ -6,7 +6,8 @@
         $arr = array();
         $arr["onesec"] = 60*60*24; //60*60*24
         $arr["population"] = 7000000000;
-        $arr["populationchange"] = 1000;
+        $arr["populationchange"] = 164383; //164383 - year 2050 ~ 10 billion
+        $arr["populationenergy"] = 2127;
         $arr["gwp"] = 74909;
         $arr["gwpchange"] = 74909;
         $arr["births"] = 10;

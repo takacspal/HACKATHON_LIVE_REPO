@@ -13,69 +13,70 @@
     <link href="css/evo.css" rel="stylesheet">
 
 </head>
-<body class="blackbg whitetext">
+<body class="blackbg whitetext evobody">
     <div class="container">
-        <h1 class="textcenter">Save The Earth</h1>
+        <h1 class="textcenter mainslogen">Save the Earth If you can</h1>
 
         <div class="row">
             <div class="col-md-4">
-                <h3>Population</h3>
+                <h2>Population</h2>
                 <p id="population"></p>
             </div>
 
             <div class="col-md-4">
-                <h3>Date</h3>
+                <h2>Date</h2>
                 <p id="gametime"></p>
             </div>
 
             <div class="col-md-4">
-                <h3>GWP (Gross world product) ($ billions)</h3>
+                <h2>GWP (Gross World Product) ($ billions)</h2>
                 <p id="gwp"></p>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-4">
-                <h3>Energy production/Energy consuption (TWh)</h3>
+                <h2>Energy production/consuption (TW)</h2>
                 <p id="birthsdeaths"></p>
             </div>
 
             <div class="col-md-4">
-                <h3>Average Global Temperature</h3>
+                <h2>Average Global Temperature</h2>
                 <p id="temp"></p>
             </div>
 
             <div class="col-md-4">
-                <h3>Expected GWP for the next year (%)</h3>
+                <h2>Expected GWP for next year ($ billions) (%)</h2>
                 <p id="growthrate"></p>
             </div>
         </div>
 
-        <div id="gamezone">
+        <!--<div id="gamezone">
 
-        </div>
-
-        <button id="resetgame" class="btn btn-lg btn-primary btn-block" type="submit">RESET</button>
-
-        <button id="startstopgame" class="btn btn-lg btn-primary btn-block" type="submit">STOP</button>
-
+        </div>-->
             <br />
+
+            <div class="row">
+                <button id="nextyear" class="btn btn-lg btn-primary btn-block" type="submit">Jump to the next year</button>
+            </div>
+
+             <br />
 
             <div class="row">
 
                 <div class="col-md-4 text-center">
-                    <button id="coalpowerplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Coal powerplant</button>
-                    <p id="coal" >25</p> <small>(Cost: 2000)</small>
+                    <div class="coalpic smallpowerpic"></div>
+                    <button id="coalpowerplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Coal power <i id="coal" >25</i> <small>(Cost: 2000)</small></button>
                 </div>
 
                 <div class="col-md-4 text-center">
-                    <button id="oilplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Gas/Oil plant</button>
-                    <p id="oil">55</p> <small>(Cost: 6000)</small>
+                    <div class="oilpic smallpowerpic"></div>
+                    <button id="oilplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Gas/Oil power <i id="oil">55</i> <small>(Cost: 6000)</small></button>
                 </div>
 
                 <div class="col-md-4 text-center">
-                    <button id="nuclearpowerplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Nuclearpowerplant</button>
-                    <p id="nuclear">10</p> <small>(Cost: 20000)</small>
+                    <div class="nuclearpic smallpowerpic"></div>
+                    <button id="nuclearpowerplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Nuclear power <i id="nuclear">10</i> <small>(Cost: 20000)</small></button>
                 </div>
 
             </div>
@@ -85,18 +86,18 @@
             <div class="row">
 
                 <div class="col-md-4 text-center">
-                    <button id="windfarm" class="btn btn-lg btn-primary btn-block addinput" type="submit">Wind farm</button>
-                    <p id="wind">5</p> <small>(Cost: 1700)</small>
+                    <div class="windpic smallpowerpic"></div>
+                    <button id="windfarm" class="btn btn-lg btn-primary btn-block addinput" type="submit">Wind power <i id="wind">5</i> <small>(Cost: 1700)</small></button>
                 </div>
 
                 <div class="col-md-4 text-center">
-                    <button id="solarpowerplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Solar power plant</button>
-                    <p id="solar">3</p> <small>(Cost: 18000)</small>
+                    <div class="solarpic smallpowerpic"></div>
+                    <button id="solarpowerplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Solar power <i id="solar">3</i> <small>(Cost: 18000)</small></button>
                 </div>
 
                 <div class="col-md-4 text-center">
-                    <button id="geothermalpowerplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Geothermal power plant</button>
-                    <p id="geo">2</p> <small>(Cost: 3000)</small>
+                    <div class="geopic smallpowerpic"></div>
+                    <button id="geothermalpowerplant" class="btn btn-lg btn-primary btn-block addinput" type="submit">Geothermal power <i id="geo">2</i> <small>(Cost: 3000)</small></button>
                 </div>
                 <!-- Egész világon arány: 78% fossils, nuclear 5%, renewables 17% - Global Energy Assesment REport 2012 -->
             </div>
@@ -106,27 +107,34 @@
             <div class="row">
 
                 <div class="col-md-4 text-center">
-                    <button id="devefficiency" class="btn btn-lg btn-primary btn-block addinput" type="submit">Increasing energy efficiency</button>
-                    <p id="eff">1</p> <small>(Cost: 10000)</small>
+                    <div class="effpic smallpowerpic"></div>
+                    <button id="devefficiency" class="btn btn-lg btn-primary btn-block addinput" type="submit">Increasing efficiency <i id="eff">1</i> <small>(Cost: 10000)</small></button>
                 </div>
 
                 <div class="col-md-4 text-center">
-                    <button id="devbattery" class="btn btn-lg btn-primary btn-block addinput" type="submit">Developing battery</button>
-                    <p id="battery">1</p> <small>(Cost: 15000)</small>
+                    <div class="batterypic smallpowerpic"></div>
+                    <button id="devbattery" class="btn btn-lg btn-primary btn-block addinput" type="submit">Developing battery <i id="battery">1</i> <small>(Cost: 15000)</small></button>
                 </div>
 
                 <div class="col-md-4 text-center">
-                    <button id="devfusion" class="btn btn-lg btn-primary btn-block addinput" type="submit">Developing fusion</button>
-                    <p id="fusion">1</p> <small>(Cost: 20000)</small>
+                    <div class="fusionpic smallpowerpic"></div>
+                    <button id="devfusion" class="btn btn-lg btn-primary btn-block addinput" type="submit">Developing fusion <i id="fusion">1</i> <small>(Cost: 20000)</small></button>
                 </div>
 
             </div>
 
             <br />
+            <br />
 
-            <div class="row">
-                <button id="nextyear" class="btn btn-lg btn-primary btn-block" type="submit">Jump to the next year</button>
+        <div class="row">
+            <div class="col-md-6 text-left">
+                <button id="resetgame" class="btn btn-lg btn-primary btn-block" type="submit">RESET</button>
             </div>
+
+            <div class="col-md-6 text-right">
+                <button id="startstopgame" class="btn btn-lg btn-primary btn-block" type="submit">STOP</button>
+            </div>
+        </div>
 
     </div>
 
