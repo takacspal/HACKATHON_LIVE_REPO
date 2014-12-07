@@ -18,6 +18,7 @@
 
             public $gametimestart;
             public $gametimecurr;
+            public $gametime;
 
             /*energy*/
             public $coal;
@@ -55,7 +56,7 @@
         function nextyear() {
             $curryear = date("Y", $this->gametimecurr);
             $nextyear = (int)($curryear)+1;
-            $nextts   = mktime(0, 0, 0, 1, 1, $nextyear); //timestamp
+            $nextts   = mktime(0, 0, 0, 1, 1, $nextyear); // //timestamp
             $diff = $nextts - $this->gametimecurr; //get days from this sec
             $diffdays = round( ($diff / 3600) / 24 );
 
@@ -97,7 +98,9 @@
         function getOutput() {
             $arr = array();
             $arr["population"]   = $this->population;
-            $arr["gametime"]     = date( "Y-m-d", $this->gametimecurr );
+
+            $arr["gametime"]     = date( "Y-m-d", $this->gametimecurr )." - ".$this->gametimecurr;
+
             $arr["gwp"]          = $this->gwp;
             $arr["birthsdeaths"] = "+ ".$this->births." / + ".$this->deaths;
             $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )";

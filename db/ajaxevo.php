@@ -36,6 +36,7 @@
 
         case "nextyear":
             $earth->nextyear();
+            $earth->buffer();
         break;
 
         case "newinput":
