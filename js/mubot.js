@@ -51,181 +51,200 @@ var lastVariation = 0;
 //
 
 //
-var mainMusicTimer = setInterval(function () {
-    //whole note (semibreve); half note (minim); quarter note (crotchet); eighth note (quaver); sixteenth note (semiquaver)
-    var isWhole = beat % 16 === 0;
-    var isHalf = beat % 8 === 0;
-    var isQuarter = beat % 4 === 0;
-    var isEighth = beat % 2 === 0;
-    var isSixteenth = true;
-    var currentBeat = {
-        "1": isWhole,
-        "2": isHalf,
-        "4": isQuarter,
-        "8": isEighth,
-        "16": isSixteenth
-    };
-    //
-    if (demoSong) {
-        switch (testMode) {
-            case "major":
-                if (currentBeat["1"]) {
-                    switch (variation) {
-                        case 1:
-                            mubot.getNoteOnDegree("I", 1);
-                            break;
+//
 
-                        case 2:
-                            mubot.getNoteOnDegree("V", 1);
-                            break;
-                        case 3:
-                            mubot.getNoteOnDegree("IV", 1);
-                            break;
+
+//
+function startMainBeat() {
+    window.mainMusicTimer = setInterval(function () {
+        //whole note (semibreve); half note (minim); quarter note (crotchet); eighth note (quaver); sixteenth note (semiquaver)
+        var isWhole = beat % 16 === 0;
+        var isHalf = beat % 8 === 0;
+        var isQuarter = beat % 4 === 0;
+        var isEighth = beat % 2 === 0;
+        var isSixteenth = true;
+        var currentBeat = {
+            "1": isWhole,
+            "2": isHalf,
+            "4": isQuarter,
+            "8": isEighth,
+            "16": isSixteenth
+        };
+        //
+        if (demoSong) {
+            switch (testMode) {
+                case "major":
+                    if (currentBeat["1"]) {
+                        switch (variation) {
+                            case 1:
+                                mubot.getNoteOnDegree("I", 1);
+                                break;
+
+                            case 2:
+                                mubot.getNoteOnDegree("V", 1);
+                                break;
+                            case 3:
+                                mubot.getNoteOnDegree("IV", 1);
+                                break;
+                        }
                     }
-                }
 
-                if (currentBeat["2"]) {
-                    switch (variation) {
-                        case 1:
-                            mubot.getChordOnDegree("I");
-                            break;
+                    if (currentBeat["2"]) {
+                        switch (variation) {
+                            case 1:
+                                mubot.getChordOnDegree("I");
+                                break;
 
-                        case 2:
-                            mubot.getChordOnDegree("V");
-                            break;
-                        case 3:
-                            mubot.getChordOnDegree("IV");
-                            break;
+                            case 2:
+                                mubot.getChordOnDegree("V");
+                                break;
+                            case 3:
+                                mubot.getChordOnDegree("IV");
+                                break;
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case "minor":
-                if (currentBeat["1"]) {
+                case "minor":
+                    if (currentBeat["1"]) {
+                        switch (variation) {
+                            case 1:
+                                mubot.getNoteOnDegree("i", 1);
+                                break;
+
+                            case 2:
+                                mubot.getNoteOnDegree("v", 1);
+                                break;
+                            case 3:
+                                mubot.getNoteOnDegree("iv", 1);
+                                break;
+
+                            case 4:
+                                mubot.getNoteOnDegree("III", 1);
+                                break;
+                        }
+                    }
+
+                    if (currentBeat["2"]) {
+                        switch (variation) {
+                            case 1:
+                                mubot.getChordOnDegree("i");
+                                break;
+
+                            case 2:
+                                mubot.getChordOnDegree("v");
+                                break;
+                            case 3:
+                                mubot.getChordOnDegree("iv");
+                                break;
+
+                            case 4:
+                                mubot.getChordOnDegree("III");
+                                break;
+                        }
+                    }
+                    /*if (beat == 4) {
+                     switch (variation) {
+                     case 1:
+                     mubot.getNoteOnDegree("i");
+                     break;
+                     
+                     case 3:
+                     mubot.getNoteOnDegree("VI");
+                     break;
+                     }
+                     }
+                     if (beat == 12) {
+                     switch (variation) {
+                     case 2:
+                     mubot.getNoteOnDegree("III");
+                     break;
+                     
+                     case 4:
+                     mubot.getNoteOnDegree("VII");
+                     break;
+                     }
+                     }*/
+
                     switch (variation) {
                         case 1:
-                            mubot.getNoteOnDegree("i", 1);
+                            if (beat == 12) {
+                                mubot.getNoteOnDegree("VI");
+                            }
+                            if (beat == 14) {
+                                mubot.getNoteOnDegree("v");
+                            }
                             break;
-
                         case 2:
-                            mubot.getNoteOnDegree("v", 1);
+                            if (beat == 10) {
+                                mubot.getNoteOnDegree("VII");
+                            }
+                            if (beat == 12) {
+                                mubot.getNoteOnDegree("VI");
+                            }
+                            if (beat == 14) {
+                                mubot.getNoteOnDegree("v");
+                            }
                             break;
                         case 3:
-                            mubot.getNoteOnDegree("iv", 1);
+                            if (beat == 10) {
+                                mubot.getNoteOnDegree("v");
+                            }
+                            if (beat == 14) {
+                                mubot.getNoteOnDegree("i");
+                            }
                             break;
 
                         case 4:
-                            mubot.getNoteOnDegree("III", 1);
+                            if (beat == 10) {
+                                mubot.getNoteOnDegree("v");
+                            }
+                            if (beat == 12) {
+                                mubot.getNoteOnDegree("VI");
+                            }
+                            if (beat == 14) {
+                                mubot.getNoteOnDegree("VII");
+                            }
                             break;
                     }
-                }
 
-                if (currentBeat["2"]) {
-                    switch (variation) {
-                        case 1:
-                            mubot.getChordOnDegree("i");
-                            break;
-
-                        case 2:
-                            mubot.getChordOnDegree("v");
-                            break;
-                        case 3:
-                            mubot.getChordOnDegree("iv");
-                            break;
-
-                        case 4:
-                            mubot.getChordOnDegree("III");
-                            break;
-                    }
-                }
-                /*if (beat == 4) {
-                 switch (variation) {
-                 case 1:
-                 mubot.getNoteOnDegree("i");
-                 break;
-                 
-                 case 3:
-                 mubot.getNoteOnDegree("VI");
-                 break;
-                 }
-                 }
-                 if (beat == 12) {
-                 switch (variation) {
-                 case 2:
-                 mubot.getNoteOnDegree("III");
-                 break;
-                 
-                 case 4:
-                 mubot.getNoteOnDegree("VII");
-                 break;
-                 }
-                 }*/
-
-                switch (variation) {
-                    case 1:
-                        if (beat == 12) {
-                            mubot.getNoteOnDegree("VI");
-                        }
-                        if (beat == 14) {
-                            mubot.getNoteOnDegree("v");
-                        }
-                        break;
-                    case 2:
-                        if (beat == 10) {
-                            mubot.getNoteOnDegree("VII");
-                        }
-                        if (beat == 12) {
-                            mubot.getNoteOnDegree("VI");
-                        }
-                        if (beat == 14) {
-                            mubot.getNoteOnDegree("v");
-                        }
-                        break;
-                    case 3:
-                        if (beat == 10) {
-                            mubot.getNoteOnDegree("v");
-                        }
-                        if (beat == 14) {
-                            mubot.getNoteOnDegree("i");
-                        }
-                        break;
-
-                    case 4:
-                        if (beat == 10) {
-                            mubot.getNoteOnDegree("v");
-                        }
-                        if (beat == 12) {
-                            mubot.getNoteOnDegree("VI");
-                        }
-                        if (beat == 14) {
-                            mubot.getNoteOnDegree("VII");
-                        }
-                        break;
-                }
-
-                break;
+                    break;
+            }
         }
-    }
-    //
+        //
 
+        //
+        if (mubot.beatQueue[beat]) {
+            //myArray.splice(key, 1);
+            for (var beatQueueIndex in mubot.beatQueue[beat]) {
+                var beatDef = mubot.beatQueue[beat][beatQueueIndex];
+                beatDef["func"].apply(mubot, beatDef["args"]);
+                beatDef["times"]--;
+                if (beatDef["times"] === 0) {
+                    mubot.beatQueue[beat].splice(beatQueueIndex, 1);
+                }
+            }
+        }
+        //
 
-    //
-    var beatText = bar + "." + beat;
-    console.log(beatText, "whole", isWhole, "half", isHalf, "quarter", isQuarter, "eighth", isEighth, "sixteenth", isSixteenth);
+        //
+        var beatText = bar + "." + beat;
+        //console.log(beatText, "whole", isWhole, "half", isHalf, "quarter", isQuarter, "eighth", isEighth, "sixteenth", isSixteenth);
 
-    $("#bpm").html(beatText);
-    beat++;
-    if (beat % 17 === 0) {
-        beat = 1;
-        bar++;
-        do {
-            variation = Math.round(Math.random() * 4);
-        } while (variation == lastVariation);
-        lastVariation = variation;
+        $("#bpm").html(beatText);
+        beat++;
+        if (beat % 17 === 0) {
+            beat = 1;
+            bar++;
+            do {
+                variation = Math.round(Math.random() * 4);
+            } while (variation == lastVariation);
+            lastVariation = variation;
 
-    }
+        }
 
-}, Math.round(bpm / 16));
+    }, Math.round(bpm / 16));
+}
 //
 function playNote(noteName, pitch) {
 
@@ -245,6 +264,16 @@ function playNote(noteName, pitch) {
 //
 
 var Mubot = Mubot || {
+    beatQueue: {},
+    signUpForBeat: function (beat, func, args, times) {
+        if (typeof times === "undefined") {
+            times = 1;
+        }
+        if (typeof this.beatQueue[beat] === "undefined") {
+            this.beatQueue[beat] = [];
+        }
+        this.beatQueue[beat].push({"this": this, "func": func, "args": args, "times": times, "bar": -1});
+    },
     testPlay: function () {
 
     },
@@ -259,7 +288,7 @@ var Mubot = Mubot || {
         "rhythm": [], //0-31
         "melody": []
     },
-    futureBars: [//ha progressionben vagyunk, akkor az már előre kiszámolt itt, az új progression ezek utánra számolódik már
+    futureBars: [
         []
     ],
     currentDegree: "I",
@@ -423,7 +452,8 @@ var Mubot = Mubot || {
     },
     //
     getChordOnDegree: function (roman) {
-        if (parseInt(roman) == roman) {
+        if (parseInt(roman) === roman) {
+            //console.log(this.indexToRoman, roman);
             roman = this.indexToRoman[roman];
             if (typeof roman === "undefined") {
                 roman = this.indexToRoman[1];
@@ -451,7 +481,6 @@ var Mubot = Mubot || {
         }
 
         playNote(note, pitch);
-
     },
     getPattern: function () {
         /*timing: {
