@@ -18,9 +18,9 @@ Hopefully, we have made a difference.
 
 ## Screenshots
 
-![Koding](http://chino.hu/cover1.png "Koding")
-![Koding](http://chino.hu/cover2.png "Koding")
-![Koding](http://chino.hu/cover3.png "Koding")
+![Koding](http://chino.hu/cover1.jpg "Koding")
+![Koding](http://chino.hu/cover2.jpg "Koding")
+![Koding](http://chino.hu/cover3.jpg "Koding")
 
 ## APIs used
 jQuery
