@@ -73,6 +73,8 @@
 
             public $input = array();
 
+            public $newyear = 0;
+
         function __construct($arr, $input) {
 
             /*world variables*/
@@ -85,13 +87,17 @@
         function newinput($kind) {
             if( ($this->gwpchange - $this->{$kind."cost"}) >= 0 ) {
 
+
                 if( ($kind == "eff" || $kind == "battery" || $kind == "fusion") && $this->$kind < 100 ) { // && || $kind == "battery" || $kind == "fusion"
                     $this->$kind++;
                     $this->gwpchange -= $this->{$kind."cost"};
-                } else {
-                    $this->$kind++;
-                    $this->gwpchange -= $this->{$kind."cost"};
                 }
+
+
+                    if($kind != "eff" && $kind != "battery" && $kind != "fusion") { //
+                        $this->$kind++;
+                        $this->gwpchange -= $this->{$kind."cost"};
+                    }
 
             }
 
@@ -100,10 +106,23 @@
         function input() {
             $this->gametimecurr += $this->onesec;
             $this->population += $this->populationchange;
-            $this->tempc += $this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat); //
+
+            if($this->tempchange < 0.0003) {
+                $this->tempchange = 0.0003;
+            }
+
+                $this->tempc += $this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat); //
+
             //$this->gwp = $this->gwpchange;
 
-            $this->births = ( ($this->coal*$this->coalenergy) + ($this->oil*$this->oilenergy) + ($this->nuclear*$this->nuclearenergy) + ($this->wind*$this->windenergy) + ($this->solar*$this->solarenergy) + ($this->geo*$this->geoenergy) ) / 1000; //production
+                //if battery 100%
+                if($this->battery == 100) {
+                    $bataddon = 10;
+                } else {
+                    $bataddon = 1;
+                }
+
+            $this->births = ( ( ($this->coal*$this->coalenergy) + ($this->oil*$this->oilenergy) + ($this->nuclear*$this->nuclearenergy) + ( ($this->wind*$this->windenergy) + ($this->solar*$this->solarenergy) + ($this->geo*$this->geoenergy) ) * $bataddon ) * ($this->eff/100 + 1) ) / 1000; //production
             $this->deaths = round($this->population*$this->populationenergy / 1000000000000, 2); //consuption
                 $this->populationenergy += $this->populationenergychange;
 
@@ -113,6 +132,8 @@
                 $this->gwp = round( $this->gwp * ($this->growthrate/100 + 1) );
                     $this->growthrate = rand(0, 4);
                 $this->gwpchange = $this->gwp;
+
+                $this->newyear = 1; //new year trigger
             }
         }
 
@@ -126,7 +147,13 @@
                 //change values by diffdays @todo
                     $this->population       += ($this->populationchange*$diffdays);
                     $this->populationenergy += ($this->populationenergychange*$diffdays);
+
+                    if($this->tempchange < 0.0003) {
+                        $this->tempchange = 0.0003;
+                    }
+
                     $this->tempc            += ( ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) ) *$diffdays);
+
                     //$this->gwp            += ($this->gwpchange*$diffdays);
                     $this->growthrate        = $this->growthrate + rand(-7, 7);
                     $this->gwp               = round( $this->gwp * ($this->growthrate/100 + 1) );
@@ -178,7 +205,7 @@
 
             $arr["gwp"]          = $this->gwpchange; //$this->gwp is the const
             $arr["birthsdeaths"] = "+ ".$this->births." / + ".$this->deaths;
-            $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )". " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) ); // . " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) )
+            $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )". " | ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) )." °C/day"; // . " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) )
             $arr["growthrate"]   = $this->gwp . " (" . $this->growthrate . ")";
 
             $arr["coal"]    = "(".$this->coal." part)";
@@ -194,6 +221,18 @@
             //TRIGGERS
             $arr["year"]    = date( "Y", $this->gametimecurr );
             $arr["celsius"] = $this->tempc;
+
+            if( date("Y", $this->gametimecurr) > 2014 && date("m", $this->gametimecurr) == 1 && date("d", $this->gametimecurr) == 1 ) {
+                if( ($this->deaths - $this->births) > 2 ) {
+                    $arr["newyear"] = 1;
+                } else {
+                    $arr["newyear"] = 0;
+                }
+            } else {
+                $arr["newyear"] = 0;
+            }
+
+
             //$arr[""]     = ;
 
             //we need random events

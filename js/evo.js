@@ -25,6 +25,7 @@ var running = 1;
 
                         if(json.year == '2037' ) { //2050
                             running = 0; //terminate script
+                            $('#startstopgame').hide();
 
                             if(json.celsius < 20) {
                                 var end = 'Congratulation! You save the earth!!!'; //good end
@@ -49,15 +50,80 @@ var running = 1;
                                         $( this ).dialog( 'close');
                                         $('#maximage').hide('fast', function() {
                                             $('.container').show();
-                                            $('#startstopgame').show();
-                                            running = 1;
-                                            gameLoop();
+                                            //$('#startstopgame').show();
+                                            //running = 1;
+                                            //gameLoop();
                                         });
                                     }
                                 }
                             });
+                        }
+
+                        if(json.fusion == '100%') {
+                            running = 0; //terminate script
+                            $('#startstopgame').hide();
+
+                            var end = 'Congratulation! You save the earth!!! You developed the infinite power source! Humanity, go to space exploration!'; //good end
+                            $('.container').hide('fast', function() {
+                                $('#maximage').html('<img src="css/gameover/paradise.jpg" alt="" width="1920" /><img src="css/gameover/tospace.jpg" alt="" width="1920" />').show().maximage();
+                            });
+
+                            $( "#dialog-message").html(end).dialog({
+                                modal: true,
+                                title: 'Game Over',
+                                buttons: {
+                                    Ok: function() {
+                                        $( this ).dialog( "close" );
+                                    },
+                                    'Restart': function() {
+                                        $( this ).dialog( 'close');
+                                        $('#maximage').hide('fast', function() {
+                                            $('.container').show();
+                                            //$('#startstopgame').show();
+                                            //running = 1;
+                                            //gameLoop();
+                                        });
+                                    }
+                                }
+                            });
+                        }
+
+                        //console.log(json.newyear);
+
+                        if(json.newyear == '1') {
+                            running = 0; //terminate script
+                            $('#startstopgame').hide();
+
+                            var end = 'It\'s all over! Everybody dead! The insufficient energy make every goernment to hard choice. They used nuclear weapons.'; //bad end
+                            $('.container').hide('fast', function() {
+                                $('#maximage').html('<img src="css/gameover/war.jpg" alt="" width="1400"  height="1007" /><img src="css/gameover/apocalypse2.jpg" alt="" width="1400" height="1007" /><img src="css/gameover/desert.jpg" alt="" width="1400" height="1007" />').show().maximage();
+                            });
+
+                            $( "#dialog-message").html(end).dialog({
+                                modal: true,
+                                title: 'Game Over',
+                                buttons: {
+                                    Ok: function() {
+                                        $( this ).dialog( "close" );
+                                    },
+                                    'Restart': function() {
+                                        $( this ).dialog( 'close');
+                                        $('#maximage').hide('fast', function() {
+                                            $('.container').show();
+                                            //$('#startstopgame').show();
+                                            //running = 1;
+                                            //gameLoop();
+                                        });
+                                    }
+                                }
+                            });
+                        }
+
+                    /*
+                        if() {
 
                         }
+                    */
 
                     //$('#gamezone').append();
 

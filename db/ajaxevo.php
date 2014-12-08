@@ -11,7 +11,7 @@
         $arr["gwp"] = 74909;
         $arr["gwpchange"] = 74909;
         $arr["births"] = 10;
-        $arr["deaths"] = 14;
+        $arr["deaths"] = 13;
         $arr["tempc"] = 14;
         $arr["tempchange"] = 0.001;
 
@@ -24,8 +24,8 @@
         $input["wind"]    = 5;
         $input["solar"]   = 3;
         $input["geo"]     = 2;
-        $input["eff"]     = 10; //%
-        $input["battery"] = 10; //% //new generation battery
+        $input["eff"]     = 25; //%
+        $input["battery"] = 30; //% //new generation battery
         $input["fusion"]  = 2;  //%
 
         $earth = new EarthModel($arr, $input);

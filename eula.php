@@ -30,7 +30,7 @@ foreach (glob("speech/*.mp3") as $sound) {
 }
 
 //
-$modes = array("minor", "major");
+$modes = array("major"); //"minor", 
 $keys = array("c", "db", "d", "eb", "e", "f", "gb", "g", "ab", "a", "bb", "b");
 //
 $randomMode = $modes[mt_rand(0, count($modes) - 1)];
@@ -76,17 +76,25 @@ $introTexts = array(
 
                 console.log(degree, checksum);
                 mubot.getChordOnDegree(degree);
+                mubot.getNoteOnDegree(degree, 1);
 
+                //mubot.signUpForBeat(4, mubot.getNoteOnDegree, [degree, 1], 1);
+                //mubot.signUpForBeat(8, mubot.getNoteOnDegree, [degree + 1, 1], 1);
+                //mubot.signUpForBeat(12, mubot.getNoteOnDegree, [degree + 1, 1], 1);
 
                 playSound(checksum);
             });
 
             $(function () {
+                //$("#intro").fadeOut(500);
+                //mubot.signUpForBeat(1, startReading, [], -1);
 
                 mubot.signUpForBeat(8, introFirst, [], 1);
 
                 //mubot.signUpForBeat(4, mubot.getChordOnDegree, [3], 4);
             });
+
+
 
             //intro
             function introFirst() {
@@ -94,6 +102,8 @@ $introTexts = array(
                 mubot.getChordOnDegree(1);
                 mubot.getNoteOnDegree("ii", 1);
                 mubot.signUpForBeat(8, introSecond, [], 1);
+
+                //melodyVariation(random(1, 8));
             }
             function introSecond() {
                 $("#intro_second").fadeIn(100);
@@ -113,17 +123,57 @@ $introTexts = array(
                 mubot.signUpForBeat(1, startReading, [], -1);
             }
 
+
+            var tooMuchTalk = 0;
             function startReading() {
+                var rand = 0;
+                do {
+                    rand = random(1, 16);
+                } while (lastVariation === rand);
+                lastVariation = rand;
+                //
+                melodyVariation(rand);
+
+                if (tooMuchTalk > 2) {
+                    isPlayingSpeech = false;
+                    tooMuchTalk = 0;
+                }
+                if (isPlayingSpeech) {
+                    tooMuchTalk++;
+                    console.log("still talking...");
+                    return;
+                }
+
+                $(".part:not(.read)").first().click().addClass("read").addClass("active");
+
+
                 console.log("reading...");
             }
         </script>
 
         <style type="text/css">
+            #canvas {
+                width: 50px; height: 10px; 
+            }
+            #eula {
+                padding: 20px; padding-bottom: 60px;
+            }
+
             .part {
                 background-color: #FFF;
             }
             .part.active {
-                background-color: #DDD;
+                background-color: #CFC;
+                -webkit-transition: background-color 1000ms linear;
+                -moz-transition: background-color 1000ms linear;
+                -o-transition: background-color 1000ms linear;
+                -ms-transition: background-color 1000ms linear;
+                transition: background-color 1000ms linear;
+            }
+
+            .part.active h1, .part.active h2 {
+                background-color: #AFA;
+
                 -webkit-transition: background-color 1000ms linear;
                 -moz-transition: background-color 1000ms linear;
                 -o-transition: background-color 1000ms linear;
@@ -167,11 +217,18 @@ $introTexts = array(
 
         <b id="bpm"></b>
         <br />
-        <canvas style="width: 500px; height: 300px;"></canvas>
+        <canvas style="" id="canvas"></canvas>
 
-        <button type="button" id="play">play</button>
-        <button type="button" id="play_speech">play speech</button>
-        <button type="button" id="stopAll">stop!</button>
+        <?php if (!empty($_GET["debug"])): ?>
+            <button type="button" id="play">Demo note</button>
+            <button type="button" id="play_speech">Demo speech</button>
+
+            <button type="button" id="getBeatQueue">Debug my beats</button>
+        <?php endif; ?>
+        <button type="button" id="stopAll">Okay, I got it!</button>
+
+
+
         <br />
 
         <div id="eula">

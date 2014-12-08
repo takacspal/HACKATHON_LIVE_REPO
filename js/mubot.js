@@ -29,7 +29,7 @@ function getRhythmByString(str) {
 
 //
 function random(min, max) {
-    return Math.round((Math.random() * (min)));
+    return Math.floor((Math.random() * max) + min);
 }
 
 var testMode = "minor";
@@ -473,6 +473,14 @@ var Mubot = Mubot || {
 
     },
     getNoteOnDegree: function (roman, pitch) {
+        if (parseInt(roman) === roman) {
+            //console.log(this.indexToRoman, roman);
+            roman = this.indexToRoman[roman];
+            if (typeof roman === "undefined") {
+                roman = this.indexToRoman[1];
+            }
+        }
+
         var noteIndex = this.romanToArabNumeric(roman);
         var note = this.myNotes[noteIndex - 1];
         //
@@ -519,7 +527,9 @@ var Mubot = Mubot || {
             "iv": 4,
             "v": 5,
             "vi": 6,
-            "vii": 7
+            "vii": 7,
+            "iidim": 2,
+            "viidim": 7
         };
         roman = roman.toLowerCase();
         var converted = conversions[roman];
@@ -539,4 +549,89 @@ $(function () {
         clearInterval(mainMusicTimer);
     });
 
+    $(document).on("click", "#getBeatQueue", function () {
+        console.log(mubot.beatQueue);
+    });
+
 });
+
+
+//variations
+function melodyVariation(variation) {
+    console.log("melodyVariation: " + variation);
+    switch (variation) {
+        case 1:
+            mubot.signUpForBeat(4, mubot.getNoteOnDegree, [1, 4], 1);
+            mubot.signUpForBeat(6, mubot.getNoteOnDegree, [4, 4], 1);
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [5, 4], 1);
+            break;
+        case 2:
+            mubot.signUpForBeat(4, mubot.getNoteOnDegree, [2, 4], 1);
+            mubot.signUpForBeat(6, mubot.getNoteOnDegree, [5, 4], 1);
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [6, 4], 1);
+            mubot.signUpForBeat(12, mubot.getNoteOnDegree, [7, 4], 1);
+            mubot.signUpForBeat(16, mubot.getNoteOnDegree, [1, 4], 1);
+            break;
+        case 3:
+            mubot.signUpForBeat(4, mubot.getNoteOnDegree, [1, 4], 1);
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [4, 4], 1);
+            mubot.signUpForBeat(12, mubot.getNoteOnDegree, [5, 4], 1);
+            break;
+        case 4:
+            mubot.signUpForBeat(4, mubot.getNoteOnDegree, [4, 4], 1);
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [2, 4], 1);
+            mubot.signUpForBeat(12, mubot.getNoteOnDegree, [5, 4], 1);
+            break;
+        case 5:
+            mubot.signUpForBeat(4, mubot.getNoteOnDegree, [4, 4], 1);
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [6, 4], 1);
+            mubot.signUpForBeat(16, mubot.getNoteOnDegree, [1, 4], 1);
+            break;
+        case 6:
+        case 7:
+            mubot.signUpForBeat(4, mubot.getNoteOnDegree, [1, 4], 1);
+            mubot.signUpForBeat(6, mubot.getNoteOnDegree, [5, 4], 1);
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [2, 4], 1);
+            break;
+        case 8:
+            mubot.signUpForBeat(4, mubot.getNoteOnDegree, [5, 4], 1);
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [4, 4], 1);
+            mubot.signUpForBeat(12, mubot.getNoteOnDegree, [1, 4], 1);
+            break;
+
+        case 9:
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [1, 4], 1);
+            mubot.signUpForBeat(12, mubot.getNoteOnDegree, [5, 4], 1);
+            break;
+
+        case 10:
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [1, 4], 1);
+            mubot.signUpForBeat(12, mubot.getNoteOnDegree, [4, 4], 1);
+            mubot.signUpForBeat(16, mubot.getNoteOnDegree, [5, 4], 1);
+            break;
+
+        case 11:
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [5, 4], 1);
+            mubot.signUpForBeat(12, mubot.getNoteOnDegree, [1, 4], 1);
+            break;
+
+        case 12:
+        case 13:
+            mubot.signUpForBeat(4, mubot.getNoteOnDegree, [5, 4], 1);
+            mubot.signUpForBeat(12, mubot.getNoteOnDegree, [1, 4], 1);
+            break;
+
+        case 14:
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [4], 1);
+            break;
+        case 15:
+            mubot.signUpForBeat(8, mubot.getNoteOnDegree, [5], 1);
+            break;
+
+        case 16:
+
+            break;
+
+    }
+
+}
