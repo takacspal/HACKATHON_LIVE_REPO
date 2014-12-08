@@ -23,7 +23,7 @@ var running = 1;
 
                         //console.log(json.year);
 
-                        if(json.year == '2037' ) { //2050
+                        if(json.year == '2050' ) { //2050
                             running = 0; //terminate script
                             $('#startstopgame').hide();
 
@@ -94,7 +94,7 @@ var running = 1;
                             running = 0; //terminate script
                             $('#startstopgame').hide();
 
-                            var end = 'It\'s all over! Everybody dead! The insufficient energy make every goernment to hard choice. They used nuclear weapons.'; //bad end
+                            var end = 'It\'s all over! Everybody dead! The insufficient energy makes every goernment to hard choices. They used nuclear weapons.'; //bad end
                             $('.container').hide('fast', function() {
                                 $('#maximage').html('<img src="css/gameover/war.jpg" alt="" width="1400"  height="1007" /><img src="css/gameover/apocalypse2.jpg" alt="" width="1400" height="1007" /><img src="css/gameover/desert.jpg" alt="" width="1400" height="1007" />').show().maximage();
                             });

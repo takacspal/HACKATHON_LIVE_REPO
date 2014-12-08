@@ -107,11 +107,19 @@
             $this->gametimecurr += $this->onesec;
             $this->population += $this->populationchange;
 
+            /*
             if($this->tempchange < 0.0003) {
                 $this->tempchange = 0.0003;
             }
+            */
 
-                $this->tempc += $this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat); //
+            if( $this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) > 0.003) {
+                $plustemp = $this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat);
+            } else {
+                $plustemp = 0.0003;
+            }
+
+                $this->tempc += $plustemp; //
 
             //$this->gwp = $this->gwpchange;
 
@@ -148,11 +156,13 @@
                     $this->population       += ($this->populationchange*$diffdays);
                     $this->populationenergy += ($this->populationenergychange*$diffdays);
 
-                    if($this->tempchange < 0.0003) {
-                        $this->tempchange = 0.0003;
+                    if( ( ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) ) *$diffdays) > 0.0003  ) {
+                        $plustemp = ( ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) ) *$diffdays);
+                    } else {
+                        $plustemp = 0.0003 * $diffdays;
                     }
 
-                    $this->tempc            += ( ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) ) *$diffdays);
+                    $this->tempc            += $plustemp;
 
                     //$this->gwp            += ($this->gwpchange*$diffdays);
                     $this->growthrate        = $this->growthrate + rand(-7, 7);
@@ -201,12 +211,39 @@
             $arr = array();
             $arr["population"]   = $this->population;
 
-            $arr["gametime"]     = date( "Y-m-d", $this->gametimecurr );
+            //$arr["gametime"]     = date( "Y-m-d", $this->gametimecurr ); //hun standard
+            $arr["gametime"]     = date( "m/d/Y", $this->gametimecurr ); //us standard
 
             $arr["gwp"]          = $this->gwpchange; //$this->gwp is the const
-            $arr["birthsdeaths"] = "+ ".$this->births." / + ".$this->deaths;
-            $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )". " | ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) )." °C/day"; // . " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) )
-            $arr["growthrate"]   = $this->gwp . " (" . $this->growthrate . ")";
+
+            if($this->deaths-$this->births < 0) {
+                $arr["birthsdeaths"] = "<i style='color: lightgreen;'>+ ".$this->births."</i> / + ".$this->deaths;
+            } else if($this->deaths-$this->births > 0  && $this->deaths-$this->births < 1) {
+                $arr["birthsdeaths"] = "<i style='color: orange;'>+ ".$this->births."</i> / + ".$this->deaths;
+            } else {
+                $arr["birthsdeaths"] = "<i style='color: red;'>+ ".$this->births."</i> / + ".$this->deaths;
+            }
+
+
+
+
+            if(($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) ) > 0.0003) {
+                $plustemp = ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) );
+            } else {
+                $plustemp = 0.0003;
+            }
+
+            if($this->tempc < 16) {
+            $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )". " | ". $plustemp ." °C/day"; // . " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) )
+            }
+            else if($this->tempc < 18) {
+                $arr["temp"]         = round($this->tempf, 2)." °F ( <i style='color: orange;'>".round($this->tempc, 2)." °C </i> )". " | ". $plustemp ." °C/day";
+            } else {
+                $arr["temp"]         = round($this->tempf, 2)." °F ( <i style='color: red;'>".round($this->tempc, 2)." °C </i> )". " | ". $plustemp ." °C/day";
+            }
+
+
+            $arr["growthrate"]   = ($this->growthrate > 0) ? $this->gwp . " (<i style='color: lightgreen;'>+ ".$this->growthrate."</i>)" : $this->gwp . " (<i style='color: red;'>".$this->growthrate."</i>)";
 
             $arr["coal"]    = "(".$this->coal." part)";
             $arr["oil"]     = "(".$this->oil." part)";
@@ -315,8 +352,8 @@
                 $this->gametimecurr  = $_SESSION["gametimecurr"];
             } else {
 
-                $this->gametimestart = time();
-                $this->gametimecurr  = time();
+                $this->gametimestart = mktime(0, 0, 0, 1, 2, 2015);
+                $this->gametimecurr  = mktime(0, 0, 0, 1, 2, 2015);
             }
 
             if(array_key_exists("growthrate", $_SESSION)) {
