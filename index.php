@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!--<link rel="icon" href="favicon.ico">-->
+    <meta name="description" content="TheTwoPeas Hackathon Web Application">
+    <meta name="author" content="Kalmar Gabor, Takacs Pal">
+    <link rel="icon" href="css/favicon.ico">
 
     <title>TheTwoPeas - Hackathon Web Application</title>
 
@@ -31,10 +31,13 @@
 
             <form class="form-signin">
                 <h2 class="form-signin-heading-h2">TheTwoPeas</h2>
-                <h3 class="form-signin-heading-h3">Hackathon Web Application<br /><small>Work in progress...</small></h3>
+                <div class="pea"></div>
+                <h3 class="form-signin-heading-h3">Hackathon Web Application</h3>
 
-                <button id="enterbutton" class="btn btn-lg btn-primary btn-block" type="submit">ENTER</button>
-                <button id="eulabutton" class="btn btn-lg btn-primary btn-block" type="submit">EULA</button>
+                <input type="button" onclick="location.href='indexevo.php';" id="enterbutton" class="btn btn-lg btn-primary btn-block" type="submit" style="margin-bottom: 4px;" value="ENTER" />
+
+                <input type="button" onclick="location.href='eula.php';" id="eulabutton" class="btn btn-lg btn-primary btn-block" type="submit" value="EULA">
+
             </form>
 
         </div> <!-- /container -->

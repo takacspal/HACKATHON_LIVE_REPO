@@ -5,6 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <title>TheTwoPeas - Hackathon Web Application</title>
+    <meta name="description" content="TheTwoPeas Hackathon Web Application">
+    <meta name="author" content="Kalmar Gabor, Takacs Pal">
+    <link rel="icon" href="css/favicon.ico">
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="jquery/jquery-ui.min.css" rel="stylesheet">
@@ -14,6 +17,19 @@
 
 </head>
 <body class="blackbg whitetext evobody">
+
+            <div id="maximage" style="display: none;"></div>
+
+        <div id="dialog-message" title="Download complete" style="display: none;">
+            <p>
+                <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+                Your files have downloaded successfully into the My Downloads folder.
+            </p>
+            <p>
+                Currently using <b>36% of your storage space</b>.
+            </p>
+        </div>
+
     <div class="container">
         <h1 class="textcenter mainslogen">Save the Earth If you can</h1>
 
@@ -128,11 +144,11 @@
 
         <div class="row">
             <div class="col-md-6 text-left">
-                <button id="resetgame" class="btn btn-lg btn-primary btn-block" type="submit">RESET</button>
+                <button id="resetgame" class="btn btn-lg btn-primary btn-block" type="submit">RESTART</button>
             </div>
 
             <div class="col-md-6 text-right">
-                <button id="startstopgame" class="btn btn-lg btn-primary btn-block" type="submit">STOP</button>
+                <button id="startstopgame" class="btn btn-lg btn-primary btn-block" type="submit">END</button>
             </div>
         </div>
 
@@ -142,6 +158,10 @@
     <script src="jquery/jquery.min.js"></script>
     <script src="jquery/jquery-ui.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+        <script src="js/jquery.cycle.all.js"></script>
+        <script src="js/jquery.easing.1.3.js"></script>
+        <script src="js/jquery.maximage.min.js"></script>
 
     <script src="js/evo.js"></script>
 

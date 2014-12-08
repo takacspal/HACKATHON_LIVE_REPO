@@ -178,7 +178,7 @@
 
             $arr["gwp"]          = $this->gwpchange; //$this->gwp is the const
             $arr["birthsdeaths"] = "+ ".$this->births." / + ".$this->deaths;
-            $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )" . " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) );
+            $arr["temp"]         = round($this->tempf, 2)." °F ( ".round($this->tempc, 2)." °C )". " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) ); // . " | DEBUG: ". ($this->tempchange + ($this->coal*$this->coalheat) + ($this->oil*$this->oilheat) + ($this->nuclear*$this->nuclearheat) - ($this->wind*$this->windheat) - ($this->solar*$this->solarheat) - ($this->geo*$this->geoheat) )
             $arr["growthrate"]   = $this->gwp . " (" . $this->growthrate . ")";
 
             $arr["coal"]    = "(".$this->coal." part)";
@@ -190,6 +190,11 @@
             $arr["eff"]     = $this->eff . "%";
             $arr["battery"] = $this->battery . "%";
             $arr["fusion"]  = $this->fusion . "%";
+
+            //TRIGGERS
+            $arr["year"]    = date( "Y", $this->gametimecurr );
+            $arr["celsius"] = $this->tempc;
+            //$arr[""]     = ;
 
             //we need random events
                 //war, explosion, extraterrestial events, etc...

@@ -112,6 +112,7 @@
 .form-signin-heading-h3 {
     text-align: center;
     font-family: dream_orphansbold;
+    margin-top: 10px;
 }
 
 .textcenter {
@@ -184,4 +185,20 @@
 
 .evobody h2 {
     font-size: 12px;
+}
+
+.pea {
+    background-color: #008C00;
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    /*float: right;*/
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #000;
+}
+
+.pea:hover {
+    background-color: #00ca00;
 }
