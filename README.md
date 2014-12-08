@@ -23,22 +23,22 @@ Hopefully, we have made a difference.
 ![Koding](http://chino.hu/cover3.jpg "Koding")
 
 ## APIs used
-jQuery
-jQuery UI
-jQuery Cycle Plugin
-jQuery Easing Plugin
-jQuery Maximage Plugin
+jQuery,
+jQuery UI,
+jQuery Cycle Plugin,
+jQuery Easing Plugin,
+jQuery Maximage Plugin,
 bootstrap 3
 
 ## Other References
-Free pics from http://pixabay.com/
-http://www.html5rocks.com/en/tutorials/webaudio/intro/#toc-play
-samples recorded in cubase
-http://translate.google.com/translate_tts
-Free fonts from http://www.1001fonts.com/
-wikipedia.org related articles (global warming)
-https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js
-https://oss.maxcdn.com/respond/1.4.2/respond.min.js
+Free pics from http://pixabay.com/,
+http://www.html5rocks.com/en/tutorials/webaudio/intro/#toc-play,
+samples recorded in cubase,
+http://translate.google.com/translate_tts,
+Free fonts from http://www.1001fonts.com/,
+wikipedia.org related articles (global warming),
+https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js,
+https://oss.maxcdn.com/respond/1.4.2/respond.min.js,
 Global Energy Assesment Report 2012 (Global warming informations)
 
 
