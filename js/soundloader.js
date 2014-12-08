@@ -50,6 +50,8 @@ function init() {
             );
 
     bufferLoader.load();
+
+
 }
 
 var biquadFilter;
@@ -81,9 +83,8 @@ function endOfPart(ev) {
     var soundName = ev.target.soundName;
     //sounds[soundName]["isPlaying"] = false;
 
-    console.log("endOfPart");
 
-    if (sounds[soundName]["speech"]) {
+    if (sounds[soundName] && sounds[soundName]["speech"]) {
         console.log("endOfPart isPlayingSpeech=false");
         isPlayingSpeech = false;
     }
@@ -92,13 +93,12 @@ function endOfPart(ev) {
 //
 
 function finishedLoading(bufferList) {
+
     analyser = context.createAnalyser();
     distortion = context.createWaveShaper();
     gainNode = context.createGain();
     biquadFilter = context.createBiquadFilter();
     convolver = context.createConvolver();
-    console.log(distortion);
-    console.log(convolver);
 
     biquadFilter.type = "allpass";
 
@@ -124,6 +124,7 @@ function finishedLoading(bufferList) {
         sounds[sound["name"]] = sound;
     }
 
+    startMainBeat();
     //biquadFilter.type = "lowshelf";
     //biquadFilter.frequency.value = 1000;
     //biquadFilter.gain.value = 25;
@@ -134,7 +135,11 @@ var startedSounds = 0;
 var isPlaying = false;
 var isPlayingSpeech = false;
 function playSound(name) {
-    if (sounds[name]["speech"] && isPlayingSpeech) {
+    if (!sounds[name]) {
+        console.log("Can't find sound: " + name);
+        return;
+    }
+    if (sounds[name] && sounds[name]["speech"] && isPlayingSpeech) {
         console.log("Already talking");
         return;
     }
