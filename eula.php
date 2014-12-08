@@ -89,6 +89,8 @@ $introTexts = array(
                 //$("#intro").fadeOut(500);
                 //mubot.signUpForBeat(1, startReading, [], -1);
 
+                $("#intro_wait").fadeIn(100);
+
                 mubot.signUpForBeat(8, introFirst, [], 1);
 
                 //mubot.signUpForBeat(4, mubot.getChordOnDegree, [3], 4);
@@ -98,10 +100,12 @@ $introTexts = array(
 
             //intro
             function introFirst() {
-                $("#intro_first").fadeIn(100);
-                mubot.getChordOnDegree(1);
-                mubot.getNoteOnDegree("ii", 1);
-                mubot.signUpForBeat(8, introSecond, [], 1);
+                $("#intro_wait").fadeOut(100, function() {
+                    $("#intro_first").fadeIn(100);
+                    mubot.getChordOnDegree(1);
+                    mubot.getNoteOnDegree("ii", 1);
+                    mubot.signUpForBeat(8, introSecond, [], 1);
+                });
 
                 //melodyVariation(random(1, 8));
             }
@@ -200,6 +204,10 @@ $introTexts = array(
 
             }
 
+            #intro #intro_wait {
+                font-size: 48px;
+            }
+
             .intro {
                 display: none;
                 color: white;
@@ -210,6 +218,8 @@ $introTexts = array(
     </head>
     <body>
         <div id="intro">
+            <div id="intro_wait" class="intro">Please wait...</div>
+
             <div id="intro_first" class="intro"><?php echo $introTexts[0]; ?></div>
             <div id="intro_second" class="intro"><?php echo $introTexts[1]; ?></div>
             <div id="intro_third" class="intro"><?php echo $introTexts[2]; ?></div>
@@ -225,7 +235,9 @@ $introTexts = array(
 
             <button type="button" id="getBeatQueue">Debug my beats</button>
         <?php endif; ?>
-        <button type="button" id="stopAll">Okay, I got it!</button>
+        <!--<button type="button" id="stopAll">Okay, I got it!</button>-->
+
+        <input type="button" type="button" id="stopAll" value="Okay, I got it!" onclick="location.href='indexevo.php'" />
 
 
 

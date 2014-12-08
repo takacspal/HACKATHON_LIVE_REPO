@@ -28,12 +28,12 @@ var running = 1;
                             $('#startstopgame').hide();
 
                             if(json.celsius < 20) {
-                                var end = 'Congratulation! You save the earth!!!'; //good end
+                                var end = 'Congratulations! You saved the Earth!!! Thanks to you humanity is saved!'; //good end
                                 $('.container').hide('fast', function() {
                                     $('#maximage').html('<img src="css/gameover/paradise.jpg" alt="" width="1920" /><img src="css/gameover/tospace.jpg" alt="" width="1920" />').show().maximage();
                                 });
                             } else {
-                                var end = 'It\'s all over! Everybody dead!'; //bad end
+                                var end = 'It\'s all over! Everybody died! Humanity has become extinct!'; //bad end
                                 $('.container').hide('fast', function() {
                                     $('#maximage').html('<img src="css/gameover/war.jpg" alt="" width="1400"  height="1007" /><img src="css/gameover/apocalypse2.jpg" alt="" width="1400" height="1007" /><img src="css/gameover/desert.jpg" alt="" width="1400" height="1007" />').show().maximage();
                                 });
@@ -63,7 +63,7 @@ var running = 1;
                             running = 0; //terminate script
                             $('#startstopgame').hide();
 
-                            var end = 'Congratulation! You save the earth!!! You developed the infinite power source! Humanity, go to space exploration!'; //good end
+                            var end = 'Congratulation! You saved the earth!!! You developed the infinite power source! Humanity will explore space!'; //good end
                             $('.container').hide('fast', function() {
                                 $('#maximage').html('<img src="css/gameover/paradise.jpg" alt="" width="1920" /><img src="css/gameover/tospace.jpg" alt="" width="1920" />').show().maximage();
                             });
@@ -94,7 +94,7 @@ var running = 1;
                             running = 0; //terminate script
                             $('#startstopgame').hide();
 
-                            var end = 'It\'s all over! Everybody dead! The insufficient energy makes every goernment to hard choices. They used nuclear weapons.'; //bad end
+                            var end = 'It\'s all over! Everybody died! The insufficient energy forces every government to make hard choices. They used nuclear weapons.'; //bad end
                             $('.container').hide('fast', function() {
                                 $('#maximage').html('<img src="css/gameover/war.jpg" alt="" width="1400"  height="1007" /><img src="css/gameover/apocalypse2.jpg" alt="" width="1400" height="1007" /><img src="css/gameover/desert.jpg" alt="" width="1400" height="1007" />').show().maximage();
                             });
@@ -190,7 +190,7 @@ var running = 1;
                     //$('#startstopgame').html('Restart');
                     $('#startstopgame').hide();
 
-                    $( '#dialog-message').html('<p>The earth is falling down.</p><p>The average temprature went too hight.</p> <p>Nuclear wars everywehere. No food. No hope.</p>').dialog({
+                    $( '#dialog-message').html('<p>The Earth is failing.</p><p>The average temperature went too high.</p> <p>Nuclear wars started everywhere. No food. No hope.</p>').dialog({
                         height: 600,
                         width: 600,
                         title: 'Game Over',
